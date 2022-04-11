@@ -1,19 +1,25 @@
 const path = require('path');
 
-const bodyParser = require('body-parser');
-
 const express = require('express');
+const bodyParser = require('body-parser');
+// const expressHbs = require('express-handlebars');
+
 
 const app = express();
 
-const adminRoutes = require('./routes/admin');
+// app.engine('handlebars', expressHbs());
+// app.set('view engine', 'handlebars');
+// app.set('views', 'views');
+
+const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const { set } = require('express/lib/application');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
